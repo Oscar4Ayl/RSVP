@@ -819,6 +819,6 @@ plusSpeedBtn.onclick = plusSpeed;
 
 
 
-noSelect();
+//noSelect();
 
 updateUI();
