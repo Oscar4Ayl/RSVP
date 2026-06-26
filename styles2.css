@@ -1,0 +1,523 @@
+
+
+
+/* =========================
+   Simulation écran mobile
+   ========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: none;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background: black;
+}
+
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+
+.app {
+
+    width: 100vw;
+    height: 100dvh;
+
+    background: black;
+    color: #bbb;
+
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* =========================
+   Informations haut / bas
+   ========================= */
+
+
+
+#topBar {
+    --safe-top: 0px;
+}
+
+@media (orientation: portrait) {
+    #topBar {
+        --safe-top: env(safe-area-inset-top);
+    }
+}
+
+
+.infoOverlay {
+
+    position: absolute;
+
+    left: 20px;
+    right: 140px; /* laisse la place aux boutons */
+
+    color: #999;
+
+    font-size: 1rem;
+    line-height: 1.2;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    z-index: 15;
+
+    pointer-events: none;
+
+    text-align: left;
+}
+
+
+/* Texte d'information */
+#topInfo {
+    top: calc(22px + var(--safe-top));
+	
+    transition:
+        opacity .2s ease,
+        transform .2s ease;
+}
+
+#topInfo.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(.8);
+}
+
+#bottomInfo {
+
+    bottom: 20px;
+
+    right: 15px;
+    transition:
+        opacity .2s ease,
+        transform .2s ease;
+}
+
+#bottomInfo.hidden {
+
+    opacity: 0;
+    pointer-events: none;
+
+    transform: scale(.8);
+}
+
+
+
+/* =========================
+   Bouton menu flottant
+   ========================= */
+
+
+.topBtn {
+    position: absolute;
+    top: calc(20px + var(--safe-top));
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 50%;
+    background: #222;
+    color: #bbb;
+    font-size: 1.3rem;
+    z-index: 20;
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease;
+}
+
+.topBtn.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(.8);
+}
+
+/* Position de chaque bouton */
+#uploadBtn {
+    right: 80px;
+}
+
+#menuBtn {
+    right: 20px;
+}
+
+
+
+
+/* =========================
+   Zone RSVP principale
+   ========================= */
+
+
+
+
+#wordDisplay {
+
+    width: 100%;
+    height: 100%;
+
+    background: black;
+
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #eee;
+
+    font-size: 3.5rem;
+    font-weight: 500;
+	
+	
+    overflow: hidden;
+}
+
+#tap-zone-left {
+    position: fixed;
+
+    left: 0vw;
+    top: 17vh;
+
+    width: 20vw;
+    height: 66vh;
+
+    z-index: 100;
+
+    /* invisible */
+    background: transparent;
+}
+
+#tap-zone-center {
+    position: fixed;
+
+    left: 20vw;
+    top: 17vh;
+
+    width: 60vw;
+    height: 66vh;
+
+    z-index: 100;
+
+    /* invisible */
+    background: transparent;
+}
+
+#tap-zone-right {
+    position: fixed;
+
+    left: 80vw;
+    top: 17vh;
+
+    width: 20vw;
+    height: 66vh;
+
+    z-index: 100;
+
+    /* invisible */
+    background: transparent;
+}
+
+#tap-zone-left.disabled {
+    pointer-events: none;
+}
+
+#tap-zone-center.disabled {
+    pointer-events: none;
+}
+
+#tap-zone-right.disabled {
+    pointer-events: none;
+}
+
+
+.orp {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    color: #F54927;
+}
+
+
+.before,
+.after {
+
+    position: absolute;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+		
+	
+    white-space: nowrap;
+}
+
+
+.before {
+
+    right: 50%;
+    text-align: right;
+}
+
+
+.after {
+
+    left: 50%;
+    text-align: left;
+}
+
+
+
+
+
+
+button {
+
+    border: none;
+    cursor: pointer;
+
+    background: #333;
+    color: #bbb;
+
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 1.1rem;
+
+    touch-action: manipulation;
+}
+
+
+
+/* =========================
+   Menu coulissant du bas
+   ========================= */
+
+
+#menuPanel {
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+	width: 100%;
+		
+    /* hauteur adaptée au contenu */
+    height: auto;
+    max-height: calc(100dvh - 20px);
+
+    background: #111;
+
+    border-radius: 25px 25px 0 0;
+    padding: 15px;
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    transform: translateY(100%);
+    transition: transform .3s ease;
+	
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#menuPanel > * {
+    width: 100%;
+}
+
+#menuPanel.open {
+    transform: translateY(0);
+}
+
+
+
+/* =========================
+   Barre actions + FERMETURE MENU
+   ========================= */
+
+
+#menuHeader {
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+#closeMenuBtn {
+
+    width: 45px;
+    height: 45px;
+
+    flex-shrink: 0;
+}
+
+
+#menuControls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+
+@media (orientation: landscape) {
+
+	
+    #menuPanel {
+        padding: 20px 20px;
+    }
+
+
+    #menuControls {
+        flex-direction: row;
+        align-items: stretch;
+		display: flex;
+        gap: 20px;
+    }
+
+
+    #navBar,
+    #speedBar {
+        flex: 1;
+    }
+}
+
+
+#actionBar {
+
+    flex: 1;
+
+    display: flex;
+    gap: 10px;
+}
+
+
+#rwdBtn,
+#multiBtn {
+
+    flex: 1;
+}
+
+
+/* =========================
+   Navigation
+   ========================= */
+
+
+#navBar {
+
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #222;
+    border-radius: 15px;
+
+    padding: 10px;
+}
+
+
+.navLeft,
+.navRight {
+
+    display: flex;
+    gap: 10px;
+}
+
+
+.navButton {
+
+    width: 50px;
+}
+
+
+.infoDisplay {
+
+    flex: 1;
+
+    margin: 10;
+    text-align: center;
+
+    font-size: 1.5rem;
+}
+
+
+
+/* =========================
+   Vitesse
+   ========================= */
+
+
+#speedBar {
+
+    background: #222;
+
+    border-radius: 15px;
+
+    padding: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.speedButton {
+
+    width: 70px;
+}
+
+
+#speedDisplay {
+
+    flex: 1;
+
+    margin: 0;
+
+    text-align: center;
+
+    font-size: 1.4rem;
+}
+
