@@ -1,4 +1,4 @@
-const CACHE_NAME = "lecteur-rsvp-v11b";
+const CACHE_NAME = "lecteur-rsvp-v11c";
 
 const FILES_TO_CACHE = [
   "/RSVP/",
