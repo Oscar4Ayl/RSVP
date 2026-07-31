@@ -2,46 +2,121 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="Pre1.css">
+<meta name="viewport" 
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+
+    <link rel="stylesheet" href="./styles2.css">
+
     <title>Lecteur RSVP</title>
 
-    
+    <link rel="manifest" href="/RSVP/manifest.json">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Lecteur RSVP">
+
+    <link rel="apple-touch-icon" href="/RSVP/icon-180.png">
 </head>
+
 
 <body>
 
-    <h1>RSVP Reader</h1>
+    <main class="app" id="reader">
 
-	<div class = "container">
-		<input id="fileInput" type="file" hidden accept=".txt, .epub">
-	
-		<button class="uploadBtn" id="uploadBtn">Chargez un livre</button>
+        <!-- ZONE HAUTE -->
+		<div id="topBar">
+			<div id="topInfo" class="infoOverlay">topInfo</div>
 
-		<div id="wordDisplay">
+			<button class="topBtn" id="uploadBtn" aria-label="Menu">+</button>
+			<input id="fileInput" type="file" hidden accept=".txt,.epub">
 			
+			<button class="topBtn" id="colorBtn" aria-label="Color">&#x25D0;</button>
+			
+			<button class="topBtn" id="menuBtn" aria-label="Menu">☰</button>
 		</div>
 
-		<div id="actionBar">
-			<button id="rwdBtn">Rewind</button>
-			<button id="multiBtn">Start</button>
-		</div>
+		<!-- ZONE CENTRALE -->
+
+        <div id="wordDisplay"><span class="orp">+</span></div>
 		
-		<div id="navBar">
-			<button id="previousChapterBtn" class="navButton">&lt;&lt;</button>
-			<h1 id="navDisplay">Chapitre #</h1>
-			<button id="nextChapterBtn" class="navButton">&gt;&gt;</button>
-		</div>
-	
-		<div id="speedBar">
-			<button id="minusSpeedBtn" class="speedButton">-</button>
-			<h1 id="speedDisplay"># WPM</h1>
-			<button id="plusSpeedBtn" class="speedButton">+</button>
-		</div>
-	</div>
-	
-	<script src='jszip.min.js'></script>
-    <script src="Pre1.js"></script>
+		<div id="tap-zone-left"></div>
+		<div id="tap-zone-center"></div>
+		<div id="tap-zone-right"></div>
+
+
+		<!-- ZONE BASSE -->
+		
+		<div id="bottomInfo" class="infoOverlay">bottomInfo</div>
+
+
+
+
+
+
+
+
+        <!-- Menu contrôles -->
+        <div id="menuPanel">
+
+			<div id="menuHeader">
+				<div id="actionBar">
+					<button id="rwdBtn">Rewind</button>
+					<button id="multiBtn">Start</button>
+				</div>
+				
+				<button id="storeBtn" aria-label="Menu">&#128190;</button>
+				<button id="closeMenuBtn">✕</button>
+			</div>
+
+			<div id="menuControls">
+				<div id="navBar">
+					<div class="navLeft">
+						<button id="previousChapterBtn" class="navButton">&lt;&lt; </button>
+						<button id="previousWordBtn" class="navButton">&lt;</button>
+					</div>
+					<div class="navRight">
+						<button id="nextWordBtn" class="navButton">&gt;</button>
+						<button id="nextChapterBtn" class="navButton">&gt;&gt;</button>
+					</div>
+				</div>
+
+
+				<div id="speedBar">
+					<button id="minusSpeedBtn" class="speedButton">-</button>
+					<h1 id="speedDisplay">speed</h1>
+					<button id="plusSpeedBtn" class="speedButton">+</button>
+				</div>
+			</div>
+			
+
+			
+            <div id="menuInfoDisplay1" class="infoDisplay"></div>
+            <div id="menuInfoDisplay2" class="infoDisplay"></div>
+            <div id="menuInfoDisplay3" class="infoDisplay"></div>
+        </div>
+
+    </main>
+
+
+    <script src="./jszip.min.js"></script>
+    <script src="./script.js"></script>
+
+
+    <script>
+
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/RSVP/service-worker.js")
+        .then(() => {
+            console.log("Service Worker installé");
+        })
+        .catch((error) => {
+            console.log("Erreur :", error);
+        });
+    }
+
+    </script>
+
 
 </body>
 </html>
