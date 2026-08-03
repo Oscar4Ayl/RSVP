@@ -177,9 +177,10 @@ function storeSettings() {
 function tokenizeRaw(text) {
     const tokens = [];
     //const regex = /\.\.\.|…|[«»(){}\[\]—–-]|[\wÀ-ÿ]+(?:[-][\wÀ-ÿ]+)*|[.,;:!?]|\s+/gu;
-    const regex = /\.\.\.|…|[«»(){}\[\]—–-]|[\p{L}]+(?:[-'’][\p{L}]+)*|[.,;:!?]|\s+/gu;
-
-
+    //const regex = /\.\.\.|…|[«»(){}\[\]—–-]|[\p{L}\p{N}]+(?:[-'’][\p{L}\p{N}]+)*|[.,;:!?%]|\s+/gu;
+	//const regex = /\.\.\.|…|[«»"(){}\[\]—–-]|\d+(?:[.,]\d+)?%?|[\p{L}]+(?:[-'’][\p{L}]+)*|[.,;:!?%]|\s+/gu;
+	const regex = /\.\.\.|…|[«»"(){}\[\]—–-]|[\p{L}\p{N}]+(?:[-'’][\p{L}\p{N}]+)*(?:[.,]\p{N}+)?%?|[.,;:!?%#$€]|\s+/gu;
+	
     let pendingSpaces = "";
     let previousToken = null;
 
@@ -233,17 +234,17 @@ function getORPIndex(wordLength) {
 function formatText(text) {
     const OPENERS = new Set([
         "«", "\"", "'", "(", "[", "{",
-        "—", "–", "-"
+        "—", "–", "-", "#"
     ]);
 
     const CLOSERS = new Set([
         "»", "\"", "'", ")", "]", "}",
         ".", ",", ";", ":", "!", "?",
-        "…"
+        "…", "...", "%", "$", "€"
     ]);
 	
 	const SENTENCE_ENDERS = new Set([
-		".", "!", "?", "…", ":", ";"
+		".", "!", "?", "…", ":", ";","…", "..."
 	]);
 
     const raw = tokenizeRaw(text);
